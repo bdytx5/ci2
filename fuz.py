@@ -18,9 +18,7 @@ B = np.array([0.0,0.5,1.0,0.5,0.0])
 # if (U is small (A)) then (V is Medium (B))
 
 # so if U is A' ----> then V is B'    |||| from B'(y) = R(x,y)*A'(x)
-
 # calc R
-#R = np.dot(np.transpose(np.array([A])),np.array([B]))
 R = np.zeros((np.size(A), np.size(B)))
 
 x=-1
@@ -44,6 +42,8 @@ for x in range(R.shape[1]):
 
 print(res)
     
-        
+# say we have A is small and B is big then C is Medium 
+
+
 
 
