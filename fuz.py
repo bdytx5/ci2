@@ -11,9 +11,9 @@ def Min1and1MinusAplusB(a, b):
     return min(1, firstOp)
 
 
-# A = small
+# A = small 1 2 3 4 
 A = np.array([1.0,0.8,0.0,0.0])
-# B = Medium
+# B = Medium a b c d e 
 B = np.array([0.0,0.5,1.0,0.5,0.0])
 # if (U is small (A)) then (V is Medium (B))
 
