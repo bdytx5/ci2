@@ -30,19 +30,17 @@ def medAMem(x):
         return 0
     if x >= a and x <= b:
         return (x - a)/(b - a)
-    if x > b and x < c:
+    if x > b and x <= c:
         return 1
     if x > c and x <= d:
         return (d - x)/(d - c)
     else:
         return 0
 
-# special case of membership function (L-function)
+# special case of membership function (L-function) for B 
 def largeAMem(x):
-
     a = 2.9
     b = 4
-
     if x >= b:
         return 1
     if x >= a and x < b:
@@ -51,5 +49,59 @@ def largeAMem(x):
         return 0
 
 
+
+letters = ['a','b','c','d','e']
+def getLetterInt(letter):
+    return letters.index(letter)+1
+
+
+
+
+
+# special case of membership function (R-function)
+def smallBMem(x):
+    x = getLetterInt(x)
+    c = 1.8
+    d = 3
+    if x < c:
+        return 1
+    if x > c and x < d:
+        return (d - x)/(d - c)
+    else:
+        return 0
+
+# membership function
+def medBMem(x):
+    x = getLetterInt(x)
+    a = 1
+    b = 3
+    c = 3
+    d = 5
+    if x < a:
+        return 0
+    if x > a and x < b:
+        return (x - a)/(b - a)
+    if x >= b and x <= c:
+        return 1
+
+
+    if x > c and x < d:
+        return (d - x)/(d - c)
+    else:
+        return 0
+
+# special case of membership function (L-function)
+def largeBMem(x):
+    x = getLetterInt(x)
+    a = 3.9
+    b = 4
+    if x >= b:
+        return 1
+    if x >= a and x < b:
+        return (x-a)/(b-a)
+    else:
+        return 0
+
+print(medBMem('e'))
 
 
