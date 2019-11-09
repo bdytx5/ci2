@@ -74,17 +74,15 @@ def smallBMem(x):
 def medBMem(x):
     x = getLetterInt(x)
     a = 1
-    b = 3
-    c = 3
+    b = 2
+    c = 2.99
     d = 5
     if x < a:
         return 0
-    if x > a and x < b:
+    if x > a and x <= b:
         return (x - a)/(b - a)
     if x >= b and x <= c:
         return 1
-
-
     if x > c and x < d:
         return (d - x)/(d - c)
     else:
@@ -102,6 +100,8 @@ def largeBMem(x):
     else:
         return 0
 
-print(medBMem('e'))
+print(medBMem('b'))
+
+a = np.dot
 
 
