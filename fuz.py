@@ -48,18 +48,33 @@ print(res)
 
 
 
+
 # need to do the tipping problem !
 # IF the service was good or the food quality was good, THEN the tip will be high.
 # IF the service was average, THEN the tip will be medium.
 # IF the service was poor and the food quality was poor THEN the tip will be low.
 
+# membership functions (1-10 scale
+# low 0-5
+#med 3-8
+#high 5-10
 
-
-def medAMem(x):
-    a = 1
-    b = 2.5
-    c = 3
+def poorMem(x):
+    c = 2
     d = 4
+    if x < c:
+        return 1
+    if x > c and x < d:
+        return round((d - x)/(d - c),2)
+    else:
+        return 0
+
+
+def avgMem(x):
+    a = 3.9
+    b = 5
+    c = 6
+    d = 7.9
 
     if x < a:
         return 0
@@ -72,66 +87,101 @@ def medAMem(x):
     else:
         return 0
 
-def chopTipMem(m):
-    a = 1
-    b = 2.5
-    c = 3
-    d = 4
 
-    if x < a:
-        return 0
-    if x >= a and x <= b:
-        return d + m*(b-a)
-    if x > b and x <= c:
+
+def goodMem(x):
+    a = 6.9
+    b = 9
+    if x >= b:
         return 1
-    if x > c and x <= d:
-        return d + m*(d-c)
+    if x >= a and x < b:
+        return (x-a)/(b-a)
     else:
         return 0
 
-Rs = [{'food':medAMem},'and',{'service':medAMem}, {'tip':medAMem} ]
+R1 = [{'food':goodMem},'or',{'service':goodMem}, {'tip':'high'} ]
+R2 = [{'service':avgMem}, {'tip':'medium'} ]
+R3 = [{'food':poorMem},'and',{'service':poorMem}, {'tip':'low'} ]
+Rules = [R1,R2,R3]
 
+qos = {'food':3,'service':3}        
+
+        
+
+fuzres = np.zeros(len(Rules))
+resIndex = 0
 # defuzzy -- add up each degree of food and service times value, divide by degrees --- low = 1, med = 2, high = 3
-firstAnt = {}
-mem = 0.0
-op = '' 
-setMem = False
-for i in range(len(Rs)):
-    try:
-        if Rs[i] == 'and' or Rs[i] == 'or':
-            op = Rs[i]
-            continue
-    except:
-        print('err')
-        continue
-
-    if list(Rs[i].keys())[0] == 'tip':
-        # compute result 
-        res = chopTipMem(mem)
-        print(res)
-        break
-
-
-    if not firstAnt: 
-        firstAnt = Rs[i]
+for Rs in Rules:
+    firstAnt = {}
+    mem = 0.0
+    op = '' 
+    setMem = False
+    for i in range(len(Rs)):
         try:
-            if Rs[i+1] == 'and' or Rs[i+1] == 'or':
-                firstAnt['op'] = Rs[i+1]
+            if Rs[i] == 'and' or Rs[i] == 'or':
+                op = Rs[i]
+                continue
         except:
             print('err')
             continue
-    else:
-        curAnt = Rs[i]
-        if not setMem: # 
-            setMem = True
-            if op == 'and':
-                mem = min(curAnt[list(curAnt.keys())[0]](2.7),firstAnt[list(firstAnt.keys())[0]](2.7))
+
+        if list(Rs[i].keys())[0] == 'tip':
+            # compute result 
+            if setMem:
+                fuzres[resIndex] = mem
+                resIndex = resIndex + 1
             else:
-                mem = max(curAnt[list(curAnt.keys())[0]](2.7),firstAnt[list(firstAnt.keys())[0]](2.7))
+                mem = list(Rs[0].values())[0](qos[list(Rs[0].keys())[0]]) # mouthfull 
+                fuzres[resIndex] = mem
+                resIndex = resIndex + 1
+
+            break
+
+
+        if not firstAnt: 
+            firstAnt = Rs[i]
+            try:
+                if Rs[i+1] == 'and' or Rs[i+1] == 'or':
+                    firstAnt['op'] = Rs[i+1]
+            except:
+                print('err')                
+                continue
         else:
-            if op == 'and':
-                mem = min(mem,curAnt[list(curAnt.keys())[0]](3.5))
+            curAnt = Rs[i]
+            
+            if not setMem: # 
+                curmetric = list(curAnt.keys())[0]
+                firstmetric = list(firstAnt.keys())[0]
+
+                setMem = True
+                if op == 'and':
+                    mem = min(curAnt[curmetric](qos[curmetric]),firstAnt[firstmetric](qos[firstmetric]))
+                else:
+                    mem = max(curAnt[curmetric](qos[curmetric]),firstAnt[firstmetric](qos[firstmetric]))
             else:
-                mem = max(mem,curAnt[list(curAnt.keys())[0]](3.5))
+                curmetric = list(curAnt.keys())[0]
+                if op == 'and':
+                    mem = min(mem,curAnt[curmetric](qos[curmetric]))
+                else:
+                    mem = max(mem,curAnt[curmetric](qos[curmetric]))
 
 
+
+        # 1      2        3
+qots = ['low','medium','high']
+defuzSum = 0
+defuzIndex = 0
+for r in Rules:
+    for val in r:
+        if val != 'and' and val != 'or':
+            if list(val.keys())[0] == 'tip':
+                qotIn = qots.index(val['tip']) + 1
+                defuzSum = defuzSum + qotIn*fuzres[defuzIndex]
+                defuzIndex = defuzIndex + 1
+                break
+
+
+if sum(fuzres) == 0:
+    print(0)
+else:
+    print(defuzSum/sum(fuzres))
