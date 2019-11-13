@@ -28,8 +28,8 @@ def lowPl(x):
 
 def medPl(x):
     a = 2
-    b = 3
-    c = 5.1
+    b = 3.9
+    c = 4.1
     d = 6
 
     if x < a:
@@ -47,8 +47,8 @@ def medPl(x):
 
 def lrgPl(x):
     a = 4
-    b = 4.5
-    c = 6.9
+    b = 5.5
+    c = 5.9
     d = 7
 
     if x < a:
@@ -67,8 +67,8 @@ def lrgPl(x):
 
 def medPw(x):
     a = 0.8
-    b = 1
-    c = 1.8
+    b = 1.3
+    c = 1.5
     d = 2
 
     if x < a:
@@ -86,8 +86,8 @@ def medPw(x):
 
 def lrgPw(x):
     a = 1
-    b = 1.4
-    c = 2.5
+    b = 1.8
+    c = 2.0
     d = 3
 
     if x < a:
@@ -151,6 +151,7 @@ R3 = [{'pl':lrgPl},'and',{'pw':lrgPw}, {'flower':'virginica'}]
 
 rules = [R1,R2,R3]
 findex = 0
+finalResults = np.zeros(len(flowers))
 # rules = [R]
 for f in flowers:
     findex = findex + 1
@@ -218,9 +219,25 @@ for f in flowers:
 
     if sum(fuzres) == 0:
         print(0)
+        finalResults[findex-1] = 0
     else:
         print(defuzSum/sum(fuzres),  '--',findex)
+        finalResults[findex-1] = defuzSum/sum(fuzres)
 
 
 
+errors = 0
+for i in range(len(finalResults)):
+    preRound = finalResults[i]
+    res = round(finalResults[i],0)
+    if i < 50:
+        errors = errors + 1 if res != 1 else errors
+        continue
+    if i < 100:
+        errors = errors + 1 if res != 2.0 else errors
+        continue
+    if i < 150:
+        errors = errors + 1 if res != 3.0 else errors
 
+
+print((len(finalResults)-errors)/len(finalResults))
