@@ -185,3 +185,8 @@ if sum(fuzres) == 0:
     print(0)
 else:
     print(defuzSum/sum(fuzres))
+
+
+
+
+
