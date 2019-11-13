@@ -10,12 +10,12 @@ import cv2
 
 # special case of membership function (R-function)
 def smallAMem(x):
-    c = 1.8
-    d = 3
+    c = 1.9
+    d = 2.4
     if x < c:
         return 1
     if x > c and x < d:
-        return (d - x)/(d - c)
+        return round((d - x)/(d - c),2)
     else:
         return 0
 
@@ -52,7 +52,7 @@ def largeAMem(x):
 
 letters = ['a','b','c','d','e']
 def getLetterInt(letter):
-    return letters.index(letter)+1
+    return letters.index(letter)
 
 
 
@@ -73,10 +73,10 @@ def smallBMem(x):
 # membership function
 def medBMem(x):
     x = getLetterInt(x)
-    a = 1
+    a = 0
     b = 2
-    c = 2.99
-    d = 5
+    c = 2.5
+    d = 3.5
     if x < a:
         return 0
     if x > a and x <= b:
@@ -95,12 +95,12 @@ def largeBMem(x):
     b = 4
     if x >= b:
         return 1
-    if x >= a and x < b:
+    if x >= a and x <= b:
         return (x-a)/(b-a)
     else:
         return 0
 
-print(medBMem('b'))
+print(medBMem('c'))
 
 a = np.dot
 

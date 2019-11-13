@@ -4,11 +4,11 @@ import numpy as np
 import random
 import math
 import cv2
-x = np.transpose(np.array([[.9,.7,.2,.9],[.9,.7,.2,.9]]))
-y = np.array([[.6,.3,.8,.9,0],[.6,.3,.8,.9,0]])
+# x = np.transpose(np.array([[.9,.7,.2,.9],[.9,.7,.2,.9]]))
+# y = np.array([[.6,.3,.8,.9,0],[.6,.3,.8,.9,0]])
 
-# x = np.transpose(np.array([[.9,.7,.2,.9]]))
-# y = np.array([[.6,.3,.8,.9,0]])
+x = np.transpose(np.array([[.9,.7,.2,.9]]))
+y = np.array([[.6,.3,.8,.9,0]])
 
 # # A = small 1 2 3 4 
 # x = np.transpose(np.array([1.0,0.8,0.0,0.0]))
