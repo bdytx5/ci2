@@ -4,7 +4,8 @@ import numpy as np
 import random
 import math
 import cv2
-
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-whitegrid')
 
 def LukaOp(a, b):
     firstOp = (1 - a) + b
@@ -54,11 +55,51 @@ print(res)
 # IF the service was average, THEN the tip will be medium.
 # IF the service was poor and the food quality was poor THEN the tip will be low.
 
-# membership functions (1-10 scale)
+usingTriMem = False
+
+
+fig = plt.figure(0)
+ax = plt.axes()
+fig.suptitle('Food and Service Membership Functions (POOR, AVERAGE, GOOD)')
+
+# POOR MEMBERSHIP
+PMC = 0.1
+PMD = 4.1
+x = [0,PMC,PMD] 
+y = [1,1,0] 
+plt.plot(x, y, color='green') 
+
+# MED MEMBERSHIP
+MDA = 3.9
+MDB = 5
+MDC = 6
+MDD = 7.9
+x = [MDA,MDB,MDC,MDD] 
+y = [0,1,1,0] 
+if not usingTriMem:
+    plt.plot(x, y,color='orange') 
+
+# GOOD MEMBERSHIP
+GDA = 5.9
+GDB = 9.9
+
+x = [GDA,GDB,10] 
+y = [0,1,1] 
+plt.plot(x, y,color='blue') 
+
+
+#TRIANGLE MEMBERSHIP (AVG)
+TA = 3.9
+TM = 5.5
+TB = 7.9
+x = [TA,TM,TB] 
+y = [0,1,0] 
+if usingTriMem:
+    plt.plot(x, y,color='orange') 
 
 def poorMem(x):
-    c = 0.1
-    d = 4.1
+    c = PMC
+    d = PMD
     if x < c:
         return 1
     if x >= c and x <= d:
@@ -68,10 +109,10 @@ def poorMem(x):
 
 
 def avgMem(x):
-    a = 3.9
-    b = 5
-    c = 6
-    d = 7.9
+    a = MDA
+    b = MDB
+    c = MDC
+    d = MDD
 
     if x < a:
         return 0
@@ -87,8 +128,8 @@ def avgMem(x):
 
 
 def goodMem(x):
-    a = 5.9
-    b = 9.9
+    a = GDA
+    b = GDB
     if x > b:
         return 1
     if x >= a and x <= b:
@@ -98,9 +139,9 @@ def goodMem(x):
 
 
 def avgMemTri(x):
-    a = 3.9
-    m = 5.5
-    b = 7.9
+    a = TA
+    m = TM
+    b = TB
 
     if x <= a:
         return 0
@@ -196,16 +237,62 @@ for r in Rules:
             if list(val.keys())[0] == 'tip':
                 qotIn = qots.index(val['tip']) + 1
                 defuzSum = defuzSum + qotIn*fuzres[defuzIndex]
-                defuzIndex = defuzIndex + 1
+                fig = plt.figure(1)
+                ax = plt.axes()
+                fig.suptitle('Tipping Problem food={} service={}'.format(qos['food'], qos['service']))
+                ax.set_ylabel('Rule Activation')
+                ax.set_xlabel('Tip Rating Low=1, Medium=2, high=3')
+
+                if qotIn == 1:
+                    x = [.5,1,1.5] 
+                    y = [0,1,0] 
+                    plt.plot(x, y,color='green' ) 
+                    plt.fill_between(x, fuzres[defuzIndex], color='blue', alpha=.25)
+                    defuzIndex = defuzIndex + 1
+                if qotIn == 2:
+                    x = [1.5,2,2.5] 
+                    y = [0,1,0] 
+                    plt.plot(x, y,color='orange' ) 
+                    plt.fill_between(x, fuzres[defuzIndex], color='blue', alpha=.25)
+                    defuzIndex = defuzIndex + 1
+                if qotIn == 3:
+                    x = [2.5,3,3.5] 
+                    y = [0,1,0] 
+                    plt.plot(x, y,color='blue' ) 
+                    plt.fill_between(x, fuzres[defuzIndex], color='blue', alpha=.25)
+                    defuzIndex = defuzIndex + 1   
+
+                
                 break
 
 
 if sum(fuzres) == 0:
     print(0)
+    fig.suptitle('Tipping Problem food={} service={} RESULT = {} TIP'.format(qos['food'], qos['service'], qos[0]))
 else:
     print(defuzSum/sum(fuzres))
+    fig.suptitle('Tipping Problem food={} service={} RESULT = {} TIP'.format(qos['food'], qos['service'], qots[int(round(defuzSum/sum(fuzres)) - 1)]))
 
 
 
 
 
+
+# import matplotlib.pyplot as plt
+# plt.style.use('seaborn-whitegrid')
+# import numpy as np
+# fig = plt.figure(1)
+# ax = plt.axes()
+# x = [1,2,3] 
+# y = [0,1,0] 
+# plt.plot(x, y ) 
+# plt.fill_between(x, .7, color='blue', alpha=.25)
+
+# fig2 = plt.figure(2)
+# plt.plot(x, y ) 
+# plt.fill_between(x, .7, color='blue', alpha=.25)
+plt.show()
+
+
+# plot each antecedent activation 
+# plot each rule activation 
