@@ -18,9 +18,9 @@ def lowPl(x):
         return 0
     if x >= a and x <= b:
         return (x - a)/(b - a)
-    if x > b and x <= c:
+    if x >= b and x <= c:
         return 1
-    if x > c and x <= d:
+    if x >= c and x <= d:
         return (d - x)/(d - c)
     else:
         return 0
@@ -36,9 +36,9 @@ def medPl(x):
         return 0
     if x >= a and x <= b:
         return (x - a)/(b - a)
-    if x > b and x <= c:
+    if x >= b and x <= c:
         return 1
-    if x > c and x <= d:
+    if x >= c and x <= d:
         return (d - x)/(d - c)
     else:
         return 0
@@ -55,9 +55,9 @@ def lrgPl(x):
         return 0
     if x >= a and x <= b:
         return (x - a)/(b - a)
-    if x > b and x <= c:
+    if x >= b and x <= c:
         return 1
-    if x > c and x <= d:
+    if x >= c and x <= d:
         return (d - x)/(d - c)
     else:
         return 0
@@ -75,9 +75,9 @@ def medPw(x):
         return 0
     if x >= a and x <= b:
         return (x - a)/(b - a)
-    if x > b and x <= c:
+    if x >= b and x <= c:
         return 1
-    if x > c and x <= d:
+    if x >= c and x <= d:
         return (d - x)/(d - c)
     else:
         return 0
@@ -94,9 +94,9 @@ def lrgPw(x):
         return 0
     if x >= a and x <= b:
         return (x - a)/(b - a)
-    if x > b and x <= c:
+    if x >= b and x <= c:
         return 1
-    if x > c and x <= d:
+    if x >= c and x <= d:
         return (d - x)/(d - c)
     else:
         return 0

@@ -54,17 +54,14 @@ print(res)
 # IF the service was average, THEN the tip will be medium.
 # IF the service was poor and the food quality was poor THEN the tip will be low.
 
-# membership functions (1-10 scale
-# low 0-5
-#med 3-8
-#high 5-10
+# membership functions (1-10 scale)
 
 def poorMem(x):
-    c = 2
-    d = 4
+    c = 0.1
+    d = 4.1
     if x < c:
         return 1
-    if x > c and x < d:
+    if x >= c and x <= d:
         return round((d - x)/(d - c),2)
     else:
         return 0
@@ -80,9 +77,9 @@ def avgMem(x):
         return 0
     if x >= a and x <= b:
         return (x - a)/(b - a)
-    if x > b and x <= c:
+    if x >= b and x <= c:
         return 1
-    if x > c and x <= d:
+    if x >= c and x <= d:
         return (d - x)/(d - c)
     else:
         return 0
@@ -90,21 +87,37 @@ def avgMem(x):
 
 
 def goodMem(x):
-    a = 6.9
-    b = 9
-    if x >= b:
+    a = 5.9
+    b = 9.9
+    if x > b:
         return 1
-    if x >= a and x < b:
+    if x >= a and x <= b:
         return (x-a)/(b-a)
     else:
         return 0
 
+
+def avgMemTri(x):
+    a = 3.9
+    m = 5.5
+    b = 7.9
+
+    if x <= a:
+        return 0
+    if x > a and x <= m:
+        return (x - a)/(m - a)
+    if x > m and x < b:
+        return (b-x)/(b-m)
+    else:
+        return 0
+
+
 R1 = [{'food':goodMem},'or',{'service':goodMem}, {'tip':'high'} ]
-R2 = [{'service':avgMem}, {'tip':'medium'} ]
+R2 = [{'service':avgMemTri}, {'tip':'medium'} ]
 R3 = [{'food':poorMem},'and',{'service':poorMem}, {'tip':'low'} ]
 Rules = [R1,R2,R3]
 
-qos = {'food':3,'service':3}        
+qos = {'food':8,'service':7}        
 
         
 
@@ -164,6 +177,12 @@ for Rs in Rules:
                     mem = min(mem,curAnt[curmetric](qos[curmetric]))
                 else:
                     mem = max(mem,curAnt[curmetric](qos[curmetric]))
+
+
+
+
+# triangular membership functions
+
 
 
 
