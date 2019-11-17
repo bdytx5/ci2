@@ -53,13 +53,16 @@ print(res)
 # need to do the tipping problem !
 # IF the service was good or the food quality was good, THEN the tip will be high.
 # IF the service was average, THEN the tip will be medium.
-# IF the service was poor and the food quality was poor THEN the tip will be low.
+# IF the service was poor or the food quality was poor THEN the tip will be low.
 
 usingTriMem = False
 
 
 fig = plt.figure(0)
 ax = plt.axes()
+ax.set_xlabel('Quality rating')
+ax.set_ylabel('Rule activation')
+
 fig.suptitle('Food and Service Membership Functions (POOR, AVERAGE, GOOD)')
 
 # POOR MEMBERSHIP
@@ -154,11 +157,11 @@ def avgMemTri(x):
 
 
 R1 = [{'food':goodMem},'or',{'service':goodMem}, {'tip':'high'} ]
-R2 = [{'service':avgMemTri}, {'tip':'medium'} ]
-R3 = [{'food':poorMem},'and',{'service':poorMem}, {'tip':'low'} ]
+R2 = [{'service':avgMemTri}, {'tip':'medium'}]
+R3 = [{'food':poorMem},'or',{'service':poorMem}, {'tip':'low'} ]
 Rules = [R1,R2,R3]
 
-qos = {'food':8,'service':7}        
+qos = {'food':1,'service':5}        
 
         
 
@@ -261,8 +264,6 @@ for r in Rules:
                     plt.plot(x, y,color='blue' ) 
                     plt.fill_between(x, fuzres[defuzIndex], color='blue', alpha=.25)
                     defuzIndex = defuzIndex + 1   
-
-                
                 break
 
 
@@ -270,8 +271,8 @@ if sum(fuzres) == 0:
     print(0)
     fig.suptitle('Tipping Problem food={} service={} RESULT = {} TIP'.format(qos['food'], qos['service'], qos[0]))
 else:
-    print(defuzSum/sum(fuzres))
-    fig.suptitle('Tipping Problem food={} service={} RESULT = {} TIP'.format(qos['food'], qos['service'], qots[int(round(defuzSum/sum(fuzres)) - 1)]))
+    print(round((defuzSum/sum(fuzres))*10,0),'%')
+    fig.suptitle('Tipping Problem food={} service={} RESULT = {} TIP-{}%'.format(qos['food'], qos['service'], qots[int(round(defuzSum/sum(fuzres)) - 1)],round((defuzSum/sum(fuzres))*10,0)))
 
 
 

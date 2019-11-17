@@ -8,6 +8,22 @@
 
 # membership function
 
+# fig = plt.figure(0)
+# ax = plt.axes()
+# ax.set_xlabel('Pedal Length')
+# ax.set_ylabel('Rule activation')
+
+
+lowPla = 0
+lowPlb = 1
+lowPlc = 1.9
+lowPld = 2.2
+
+# x = [lowPla,lowPlb,lowPlc,lowPld] 
+# y = [0,1,1,0] 
+# if not usingTriMem:
+#     plt.plot(x, y,color='orange') 
+
 def lowPl(x):
     a = 0
     b = 1
@@ -24,6 +40,11 @@ def lowPl(x):
         return (d - x)/(d - c)
     else:
         return 0
+
+medPla = 2
+medPlb = 3.9
+medPlc = 4.1
+medPld = 6
 
 
 def medPl(x):
@@ -43,6 +64,12 @@ def medPl(x):
     else:
         return 0
 
+
+
+lrgPla = 4
+lrgPlb = 5.5
+lrgPlc = 5.9
+lrgPld = 7
 
 
 def lrgPl(x):
@@ -65,6 +92,12 @@ def lrgPl(x):
 
 
 
+medPwa = 0.8 
+medPwb = 1.3 
+medPwc = 1.5 
+medPwd = 2 
+
+
 def medPw(x):
     a = 0.8
     b = 1.3
@@ -81,6 +114,12 @@ def medPw(x):
         return (d - x)/(d - c)
     else:
         return 0
+
+
+lrgPwa = 1
+lrgPwb = 1.8
+lrgPwc = 2
+lrgPwd = 3
 
 
 
