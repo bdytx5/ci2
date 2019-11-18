@@ -190,10 +190,10 @@ rules = [R1,R2,R3]
 findex = 0
 finalResults = np.zeros(len(flowers))
 # rules = [R]
-plotting = True # for individual samples 
-flowers = [[5.1, 3.5, 1.4, 0.2]] # sample setosa 
-flowers = [[5.6, 3. , 4.1, 1.3]] # sample versicolor 
-flowers = [[6.8, 3.2, 5.9, 2.3]] # sample virginica 
+plotting = False # for individual samples 
+# flowers = [[5.1, 3.5, 1.4, 0.2]] # sample setosa 
+# flowers = [[5.6, 3. , 4.1, 1.3]] # sample versicolor 
+# flowers = [[6.8, 3.2, 5.9, 2.3]] # sample virginica 
 
 for f in flowers:
     findex = findex + 1
