@@ -61,7 +61,7 @@ usingTriMem = False
 fig = plt.figure(0)
 ax = plt.axes()
 ax.set_xlabel('Quality rating')
-ax.set_ylabel('Rule activation')
+ax.set_ylabel('Membership Degree')
 
 fig.suptitle('Food and Service Membership Functions (POOR, AVERAGE, GOOD)')
 
@@ -156,12 +156,33 @@ def avgMemTri(x):
         return 0
 
 
+usingProd = False
+usingLuka = True 
+
+
+
 R1 = [{'food':goodMem},'or',{'service':goodMem}, {'tip':'high'} ]
-R2 = [{'service':avgMemTri}, {'tip':'medium'}]
+R2 = [{'service':avgMem}, {'tip':'medium'}]
 R3 = [{'food':poorMem},'or',{'service':poorMem}, {'tip':'low'} ]
 Rules = [R1,R2,R3]
 
-qos = {'food':1,'service':5}        
+qos = {'food':1,'service':8}        
+
+def andImp(x,y):
+    if not usingLuka and not usingProd: 
+        return min(x,y)
+    if usingLuka:
+        return max((x+y-1),0)
+    else:
+        return x*y
+
+def orImp(x,y):
+    if not usingLuka and not usingProd:
+        return max(x,y)
+    if usingLuka:
+        return min((x+y),1)
+    else:
+        return ((x+y) - (x*y))
 
         
 
@@ -212,23 +233,20 @@ for Rs in Rules:
 
                 setMem = True
                 if op == 'and':
-                    mem = min(curAnt[curmetric](qos[curmetric]),firstAnt[firstmetric](qos[firstmetric]))
+                    mem = andImp(curAnt[curmetric](qos[curmetric]),firstAnt[firstmetric](qos[firstmetric]))
                 else:
-                    mem = max(curAnt[curmetric](qos[curmetric]),firstAnt[firstmetric](qos[firstmetric]))
+                    mem = orImp(curAnt[curmetric](qos[curmetric]),firstAnt[firstmetric](qos[firstmetric]))
             else:
                 curmetric = list(curAnt.keys())[0]
                 if op == 'and':
-                    mem = min(mem,curAnt[curmetric](qos[curmetric]))
+                    mem = andImp(mem,curAnt[curmetric](qos[curmetric]))
                 else:
-                    mem = max(mem,curAnt[curmetric](qos[curmetric]))
+                    mem = orImp(mem,curAnt[curmetric](qos[curmetric]))
 
 
 
 
 # triangular membership functions
-
-
-
 
         # 1      2        3
 qots = ['low','medium','high']
@@ -243,7 +261,7 @@ for r in Rules:
                 fig = plt.figure(1)
                 ax = plt.axes()
                 fig.suptitle('Tipping Problem food={} service={}'.format(qos['food'], qos['service']))
-                ax.set_ylabel('Rule Activation')
+                ax.set_ylabel('Membership Degree')
                 ax.set_xlabel('Tip Rating Low=1, Medium=2, high=3')
 
                 if qotIn == 1:

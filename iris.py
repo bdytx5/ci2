@@ -15,8 +15,8 @@ plt.style.use('seaborn-whitegrid')
 # run parameters 
 plotting = False # for individual samples 
 usingTris = False 
-usingLuka = True
-usingProd = False
+usingLuka = False
+usingProd = True
 
 
 
